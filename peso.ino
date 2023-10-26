@@ -9,27 +9,29 @@ boolean timerIniziato = false;
 int input_analogico = A0;
 int sensorValue=0;
 int peso = 0;
-int misura=0;
+int misura = 0;
 int potenza = 0;
 
 void setup() {
-  wdt_enable(WDTO_8S);
+  //wdt_enable(WDTO_8S);
   pinMode(portaIngresso, INPUT);
   Serial.begin(9600);
+  Serial.println("Start");
 }
 
 void loop () {
 
   if (misura==0){
-    for (int indice = 1; indice <= 20; indice = indice+1) {
+    for (int indice = 1; indice <= 30; indice = indice+1) {
       sensorValue = analogRead(input_analogico);
       peso=sensorValue/8;
       
-      if (indice < 10) {
+      if (indice < 10) { //Index test
         Serial.print("0");
       }
       Serial.print(indice);
       Serial.print(" - ");
+      
       Serial.println(peso);
     
       delay(200);
@@ -53,7 +55,6 @@ void loop () {
     tempoDiVolo = tempoAttuale - startTime;
 
     if (tempoDiVolo > 2000) {
-      Serial.print("Ci ha messo troppo");
       wdt_disable();
 
       asm volatile (" jmp 0");
@@ -76,6 +77,5 @@ void loop () {
     Serial.println(" Watt");
     Serial.println("-------------------------");
     timerIniziato = false;
-
   }
 }
